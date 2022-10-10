@@ -2,12 +2,7 @@ part of 'home_bloc.dart';
 
 abstract class HomeState {}
 
-class InitState extends HomeState {
-  final List<String> tableNames = [];
-  final String currentTableName = '';
-  final String query = '';
-  final List<Map<String, Object?>> results = [];
-}
+class InitState extends HomeState {}
 
 class NewTablesState extends HomeState {
   NewTablesState(this.newTableNames);

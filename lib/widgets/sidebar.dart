@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinguino/routes/home/bloc/home_bloc.dart';
-import 'package:pinguino/widgets/table_button.dart';
+import 'package:pinguino/widgets/sidebar_table_button.dart';
 
 class Sidebar extends StatelessWidget {
   const Sidebar({super.key});
@@ -20,7 +20,7 @@ class Sidebar extends StatelessWidget {
             }
             return Column(
                 children: state.newTableNames
-                    .map<Widget>((tableName) => TableButton(tableName))
+                    .map<Widget>((tableName) => SidebarTableButton(tableName))
                     .toList());
           })
     ]);

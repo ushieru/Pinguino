@@ -9,20 +9,29 @@ class Sidebar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const Padding(
-          padding: EdgeInsets.only(left: 18, top: 5, bottom: 5),
-          child: Text('Tables', style: TextStyle(fontWeight: FontWeight.w600))),
-      BlocBuilder<HomeBloc, HomeState>(
-          buildWhen: (previous, current) => current is NewTablesState,
-          builder: (context, state) {
-            if (state is! NewTablesState) {
-              return Column(children: const []);
-            }
-            return Column(
-                children: state.newTableNames
-                    .map<Widget>((tableName) => SidebarTableButton(tableName))
-                    .toList());
-          })
+      Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          width: double.maxFinite,
+          decoration: const BoxDecoration(color: Colors.indigo),
+          child: Text('Tables',
+              style: TextStyle(
+                  color: Colors.grey.shade200,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18))),
+      const SizedBox(height: 10),
+      Expanded(
+          child: BlocBuilder<HomeBloc, HomeState>(
+              buildWhen: (previous, current) => current is NewTablesState,
+              builder: (context, state) {
+                if (state is! NewTablesState) {
+                  return Column(children: const []);
+                }
+                return ListView(
+                    children: state.newTableNames
+                        .map<Widget>(
+                            (tableName) => SidebarTableButton(tableName))
+                        .toList());
+              }))
     ]);
   }
 }

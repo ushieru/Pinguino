@@ -8,14 +8,15 @@ class ResultsHeaders extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
-        buildWhen: (previous, current) => current is NewResultQueryState,
+        buildWhen: (previous, current) => current is NewTablesHeadersState,
         builder: (context, state) {
-          if (state is! NewResultQueryState || state.results.isEmpty) {
+          if (state is! NewTablesHeadersState ||
+              state.newTableHeaders.isEmpty) {
             return Row(children: const []);
           }
           return Row(
-              children: state.results.first.keys
-                  .map<Widget>((columnName) => Expanded(
+              children: state.newTableHeaders
+                  .map<Widget>((row) => Expanded(
                       child: Container(
                           padding: const EdgeInsets.all(3),
                           alignment: Alignment.center,
@@ -23,7 +24,7 @@ class ResultsHeaders extends StatelessWidget {
                               color: Colors.indigo.shade200,
                               border:
                                   Border.all(color: Colors.indigo, width: 2)),
-                          child: Text(columnName,
+                          child: Text(row['name'] as String,
                               style: const TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.bold)))))
                   .toList());

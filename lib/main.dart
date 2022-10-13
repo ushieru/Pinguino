@@ -1,13 +1,10 @@
 import 'package:pinguino/routes/home/home.dart';
-import 'package:pinguino/models/sqlite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:flutter/material.dart';
 import 'package:pinguino/routes/connect.dart';
 
 void main() {
   sqfliteFfiInit();
-  SQLite(
-      route: 'C:\\Users\\uziel\\Documents\\flutter\\pinguino\\red_social.db');
   runApp(const Pinguino());
 }
 

@@ -9,6 +9,11 @@ class NewTablesState extends HomeState {
   final List<String> newTableNames;
 }
 
+class NewTablesHeadersState extends HomeState {
+  NewTablesHeadersState(this.newTableHeaders);
+  final List<Map<String, String>> newTableHeaders;
+}
+
 class NewQueryState extends HomeState {
   NewQueryState(this.query);
   final String query;

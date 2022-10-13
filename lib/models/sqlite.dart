@@ -1,5 +1,8 @@
+// ignore: depend_on_referenced_packages
 import 'package:sqflite_common/sqlite_api.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+
+typedef OnDatabaseOpenFn = Future<void> Function(SQLite);
 
 class SQLite {
   static SQLite? _instance;
@@ -7,18 +10,22 @@ class SQLite {
 
   SQLite._();
 
-  factory SQLite({String route = inMemoryDatabasePath}) {
+  factory SQLite(
+      {String route = inMemoryDatabasePath, OnDatabaseOpenFn? onCreate}) {
     if (_instance == null) {
       _instance = SQLite._();
       _instance!
-          ._getDatabase(route)
+          ._getDatabase(route, onCreate)
           .then((value) => _instance!.database = value);
     }
     return _instance!;
   }
 
-  Future<Database> _getDatabase(route) async =>
-      await databaseFactoryFfi.openDatabase(route);
+  Future<Database> _getDatabase(route, OnDatabaseOpenFn? callback) async =>
+      await databaseFactoryFfi.openDatabase(route,
+          options: OpenDatabaseOptions(onOpen: (_) {
+        if (callback != null) callback(this);
+      }));
 
   Future<List<Map<String, Object?>>> addForeignKeys(
       String tableName, List<Map<String, Object?>> results) async {

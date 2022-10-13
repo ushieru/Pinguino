@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pinguino/models/sqlite.dart';
+import 'package:pinguino/routes/connect.dart';
 import 'package:pinguino/routes/home/bloc/home_bloc.dart';
 import 'package:pinguino/widgets/sidebar_table_button.dart';
 
@@ -31,7 +33,19 @@ class Sidebar extends StatelessWidget {
                         .map<Widget>(
                             (tableName) => SidebarTableButton(tableName))
                         .toList());
-              }))
+              })),
+      TextButton(
+          onPressed: () {
+            SQLite().closeDatabase().then((_) =>
+                Navigator.pushNamedAndRemoveUntil(
+                    context, Connect.routeName, (route) => false));
+          },
+          child: Row(children: const [
+            Icon(Icons.exit_to_app),
+            SizedBox(width: 10),
+            Text('Close Database')
+          ])),
+      const SizedBox(height: 10)
     ]);
   }
 }

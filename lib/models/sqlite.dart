@@ -27,6 +27,11 @@ class SQLite {
         if (callback != null) callback(this);
       }));
 
+  Future<void> closeDatabase() async {
+    await _instance?.database.close();
+    _instance = null;
+  }
+
   Future<List<Map<String, Object?>>> addForeignKeys(
       String tableName, List<Map<String, Object?>> results) async {
     final checkReferences = "SELECT tbl_name, sql"

@@ -9,15 +9,13 @@ class SidebarTableButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-        child: TextButton(
-            onPressed: () =>
-                context.read<HomeBloc>().add(SelectTableEvent(tableName)),
-            child: Row(children: [
-              const Icon(Icons.table_chart_rounded),
-              const SizedBox(width: 10),
-              Text(tableName)
-            ])));
+    return TextButton(
+        onPressed: () =>
+            context.read<HomeBloc>().add(SelectTableEvent(tableName)),
+        child: Row(children: [
+          const Icon(Icons.table_chart_rounded),
+          const SizedBox(width: 10),
+          Text(tableName)
+        ]));
   }
 }

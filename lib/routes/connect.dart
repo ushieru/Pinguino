@@ -27,7 +27,26 @@ class Connect extends StatelessWidget {
           height: 40,
           child: ElevatedButton(
               onPressed: () async {
+                final path = await createFile();
+                if (path == null) return;
+                SQLite(
+                    route: path,
+                    onCreate: (_) async {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, Home.routeName, (route) => false);
+                    });
+              },
+              child: const Text('New Database',
+                  style:
+                      TextStyle(fontWeight: FontWeight.w600, fontSize: 20)))),
+      const SizedBox(height: 15),
+      SizedBox(
+          width: 400,
+          height: 40,
+          child: ElevatedButton(
+              onPressed: () async {
                 final path = await selectFile();
+                if (path == null) return;
                 SQLite(
                     route: path,
                     onCreate: (_) async {
@@ -42,8 +61,15 @@ class Connect extends StatelessWidget {
   }
 }
 
-Future<String> selectFile() async {
+Future<String?> selectFile() async {
   FilePickerResult? result = await FilePicker.platform.pickFiles();
-  if (result == null) throw 'File not found';
+  if (result == null) return null;
   return result.files.single.path!;
+}
+
+Future<String?> createFile() async {
+  String? result = await FilePicker.platform
+      .saveFile(fileName: 'new_db.db', allowedExtensions: ['db']);
+  if (result == null) return null;
+  return result;
 }

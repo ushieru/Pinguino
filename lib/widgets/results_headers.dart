@@ -16,7 +16,7 @@ class ResultsHeaders extends StatelessWidget {
           }
           return Row(
               children: state.newTableHeaders
-                  .map<Widget>((row) => Expanded(
+                  .map<Widget>((rowName) => Expanded(
                       child: Container(
                           padding: const EdgeInsets.all(3),
                           alignment: Alignment.center,
@@ -24,7 +24,7 @@ class ResultsHeaders extends StatelessWidget {
                               color: Colors.indigo.shade200,
                               border:
                                   Border.all(color: Colors.indigo, width: 2)),
-                          child: Text(row['name'] as String,
+                          child: Text(rowName.name,
                               style: const TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.bold)))))
                   .toList());

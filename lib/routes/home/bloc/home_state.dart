@@ -11,7 +11,7 @@ class NewTablesState extends HomeState {
 
 class NewTablesHeadersState extends HomeState {
   NewTablesHeadersState(this.newTableHeaders);
-  final List<Map<String, String>> newTableHeaders;
+  final List<QueryHeaders> newTableHeaders;
 }
 
 class NewQueryState extends HomeState {

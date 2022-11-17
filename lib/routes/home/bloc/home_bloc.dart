@@ -23,13 +23,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     on<SelectTableEvent>((event, emit) async {
       final sqlite = SQLite();
-      final rawResults = await sqlite.database.query(event.tableName);
-      final headers = await sqlite.getHeadersFromTableName(event.tableName);
+      final rawResults = await sqlite.database.query('`${event.tableName}`');
+      final headers =
+          await sqlite.getHeadersFromTableName('`${event.tableName}`');
       final foreignKeys =
-          await sqlite.addForeignKeys(rawResults, event.tableName);
+          await sqlite.addForeignKeys(rawResults, '`${event.tableName}`');
       emit(NewTablesHeadersState(headers));
       emit(NewResultQueryState(foreignKeys));
-      emit(NewQueryState('SELECT * FROM ${event.tableName}'));
+      emit(NewQueryState('SELECT * FROM `${event.tableName}`'));
     });
 
     on<NewQueryEvent>((event, emit) async {

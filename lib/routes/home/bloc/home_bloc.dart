@@ -2,6 +2,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
+import 'package:pinguino/models/query_headers.dart';
 import 'package:pinguino/models/sqlite.dart';
 
 part 'home_event.dart';
@@ -23,20 +24,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<SelectTableEvent>((event, emit) async {
       final sqlite = SQLite();
       final rawResults = await sqlite.database.query(event.tableName);
-      final headers = (await sqlite.database
-              .rawQuery('PRAGMA table_info(${event.tableName})'))
-          .map<Map<String, String>>((row) =>
-              {'name': row['name'] as String, 'type': row['type'] as String})
-          .toList();
-      final results = await sqlite.addForeignKeys(event.tableName, rawResults);
+      final headers = await sqlite.getHeadersFromTableName(event.tableName);
+      final foreignKeys =
+          await sqlite.addForeignKeys(rawResults, event.tableName);
       emit(NewTablesHeadersState(headers));
+      emit(NewResultQueryState(foreignKeys));
       emit(NewQueryState('SELECT * FROM ${event.tableName}'));
-      emit(NewResultQueryState(results));
     });
 
     on<NewQueryEvent>((event, emit) async {
       final results = await SQLite().database.rawQuery(event.query);
-      isNewTable(event.query);
+      _isNewTable(event.query);
       emit(NewQueryState(event.query));
       emit(NewResultQueryState(results));
     });
@@ -44,7 +42,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     add(LoadedTables());
   }
 
-  isNewTable(String query) {
+  _isNewTable(String query) {
     if (query.toLowerCase().contains('create table')) {
       add(LoadedTables());
     }

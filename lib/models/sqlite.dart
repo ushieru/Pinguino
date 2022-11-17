@@ -1,4 +1,5 @@
 // ignore: depend_on_referenced_packages
+import 'package:pinguino/models/query_headers.dart';
 import 'package:sqflite_common/sqlite_api.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -32,8 +33,18 @@ class SQLite {
     _instance = null;
   }
 
+  Future<List<QueryHeaders>> getHeadersFromTableName(String tableName) async {
+    final headers = (await SQLite()
+            .database
+            .rawQuery('PRAGMA table_info($tableName)'))
+        .map<QueryHeaders>(
+            (row) => QueryHeaders(row['name'] as String, row['type'] as String))
+        .toList();
+    return headers;
+  }
+
   Future<List<Map<String, Object?>>> addForeignKeys(
-      String tableName, List<Map<String, Object?>> results) async {
+      List<Map<String, Object?>> results, String tableName) async {
     final checkReferences = "SELECT tbl_name, sql"
         " FROM sqlite_master"
         " WHERE sql LIKE '%REFERENCES%'"

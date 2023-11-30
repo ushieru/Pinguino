@@ -15,7 +15,10 @@ class Pinguino extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(primarySwatch: Colors.indigo),
+        theme: ThemeData(
+          primarySwatch: Colors.indigo,
+          useMaterial3: true,
+        ),
         title: 'Pingüino',
         initialRoute: Connect.routeName,
         routes: {

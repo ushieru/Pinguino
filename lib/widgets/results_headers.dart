@@ -12,7 +12,7 @@ class ResultsHeaders extends StatelessWidget {
         builder: (context, state) {
           if (state is! NewTablesHeadersState ||
               state.newTableHeaders.isEmpty) {
-            return Row(children: const []);
+            return const Row(children: []);
           }
           return Row(
               children: state.newTableHeaders

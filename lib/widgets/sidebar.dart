@@ -26,7 +26,7 @@ class Sidebar extends StatelessWidget {
               buildWhen: (previous, current) => current is NewTablesState,
               builder: (context, state) {
                 if (state is! NewTablesState) {
-                  return Column(children: const []);
+                  return const Column(children: []);
                 }
                 return ListView(
                     children: state.newTableNames
@@ -40,7 +40,7 @@ class Sidebar extends StatelessWidget {
                 Navigator.pushNamedAndRemoveUntil(
                     context, Connect.routeName, (route) => false));
           },
-          child: Row(children: const [
+          child: const Row(children: [
             Icon(Icons.exit_to_app),
             SizedBox(width: 10),
             Text('Close Database')
